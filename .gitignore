@@ -13,3 +13,5 @@
 /project/target/
 /target/
 /tmp/
+/public/bower_components/
+/public/tmp/

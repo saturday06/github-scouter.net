@@ -1,7 +1,20 @@
-@(message: String)
-
-@main("Welcome to Play") {
-
-    @play20.welcome(message)
-
+@main("GitHub Scouter", Option("index")) {
+    <h1>GitHubスカウター</h1>
+    <form id="github_id_form">
+        <div>
+            あなたのGitHub戦闘力を計測します。
+            <paper-input-decorator label="GitHub ID" floatingLabel>
+                <input is="core-input" id="github_id">
+            </paper-input-decorator>
+        </div>
+        <div class="measure-button-layout">
+            <paper-button id="measure">計測する!</paper-button>
+            <paper-spinner class="measure-spinner" active></paper-spinner>
+            <div class="error-message"></div>
+        </div>
+    </form>
+    <div id="power_level">
+        <span id="power_level_message"></span>
+        <div id="power_level_chart"></div>
+    </div>
 }
