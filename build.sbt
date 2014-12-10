@@ -6,6 +6,7 @@ lazy val `github-scouter-net` = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.4"
 
-libraryDependencies ++= Seq(jdbc ,anorm ,cache ,ws)
+libraryDependencies ++= Seq(jdbc, cache, ws,
+  "com.typesafe.play" %% "play-slick" % "0.8.1")
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )

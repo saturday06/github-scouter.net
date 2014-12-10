@@ -55,7 +55,6 @@ $(() => {
             $(".measure-spinner").hide()
             $(".error-message").text(e.toString()).show()
         })
-
         return false
     }
 
