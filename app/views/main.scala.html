@@ -4,6 +4,7 @@
 
 <html>
     <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("bower_components/toast-grid/css/grid.css")">
@@ -21,7 +22,9 @@
     </head>
     <body class="grid">
         <div class="grid__col grid__col--3-of-5 grid__col--centered">
-            @content
+            <div class="content">
+                @content
+            </div>
         </div>
         <div class="grid__col grid__col--3-of-5 grid__col--centered">
             <footer>

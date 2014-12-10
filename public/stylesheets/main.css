@@ -69,6 +69,10 @@ paper-button#measure .button-content {
     margin-left: 1ex;
 }
 
+footer {
+    padding: 0 0 1em 1ex;
+}
+
 footer ul {
     margin-top: 3em;
     font-size: small;
@@ -78,4 +82,8 @@ footer ul {
 
 footer li {
 
+}
+
+.content {
+    padding: 0 0 1em 1ex;
 }
