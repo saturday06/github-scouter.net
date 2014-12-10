@@ -26,8 +26,10 @@ $(() => {
     }
 
     function showResult(userName, powerLevel) {
-        var message = '<span class="user-name">' + userName + '</span>さんのGitHub戦闘力は<br><span class="total-power-level">' +
-            "　" + powerLevel.total() + "</span>です。";
+        var href = "https://github.com/" + userName
+        var message = '<a class="user-name" href="' + href + '">' + userName +
+            '</a>さんのGitHub戦闘力は<br><span class="total-power-level">' +
+            "　" + Math.round(powerLevel.total() * 10) / 10 + "</span>です。";
         $("#power_level_message").html(message).show(300, () => { showChart(userName, powerLevel) })
     }
 
