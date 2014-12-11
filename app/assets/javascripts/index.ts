@@ -1,10 +1,10 @@
-declare var $, GithubScouter, google
+declare var $, google, GithubScouter, CoreAnimation
 google.load("visualization", "1", {packages:["corechart"]})
 
 $(() => {
     function showChart(userName, powerLevel) {
         var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
+            ['Parameter', 'Value'],
             ['攻撃力', powerLevel.atk],
             ['知力', powerLevel.int],
             ['素早さ', powerLevel.agi]
@@ -12,15 +12,10 @@ $(() => {
         var width = $("#power_level_message").width() // this?
         var options = {
             sliceVisibilityThreshold: 0,
-            animation:{
-                duration: 1000,
-                easing: 'out'
-            },
             width: width
         }
         $('#power_level_chart').width(width)
 
-        // What!?
         var chart = new google.visualization.PieChart(document.getElementById('power_level_chart'))
         chart.draw(data, options)
     }
@@ -30,12 +25,21 @@ $(() => {
         var message = '<a class="user-name" href="' + href + '">' + userName +
             '</a>さんのGitHub戦闘力は<br><span class="total-power-level">' +
             "　" + Math.round(powerLevel.total() * 10) / 10 + "</span>です。";
-        $("#power_level_message").html(message).show(300, () => { showChart(userName, powerLevel) })
+        $("#power_level_message").html(message)
+        showChart(userName, powerLevel)
+
+        var animation = new CoreAnimation()
+        animation.duration = 300;
+        animation.keyframes = [
+            {opacity: 0},
+            {opacity: 1}
+        ];
+        animation.target = document.getElementById("power_level")
+        animation.play()
     }
 
     function measure() {
-        $("#power_level_message").hide(200).empty()
-        $("#power_level_chart").empty()
+        $("#power_level").css("opacity", 0).hide()
         $(".error-message").hide()
         $(".measure-spinner").show()
         var scouter = new GithubScouter()
@@ -44,6 +48,7 @@ $(() => {
         scouter.measure(userName, (powerLevel) => {
             console.log(powerLevel)
             $(".measure-spinner").hide()
+            $("#power_level").show()
             showResult(userName, powerLevel)
         }, (e) => {
             console.log(e)

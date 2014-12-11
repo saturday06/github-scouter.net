@@ -13,5 +13,10 @@
 /project/target/
 /target/
 /tmp/
+/bower_components/
+/node_modules/
+/typings/
+/npm-debug.log
 /public/bower_components/
-/public/tmp/
+/app/assets/javascripts/front.bundle.js
+/app/assets/javascripts/front.bundle.js.map

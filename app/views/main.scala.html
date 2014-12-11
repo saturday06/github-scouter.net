@@ -13,14 +13,11 @@
         <script src='@routes.Assets.at("bower_components/jquery/dist/jquery.js")' type="text/javascript"></script>
         <script src='@routes.Assets.at("bower_components/webcomponentsjs/webcomponents.js")' type="text/javascript"></script>
         <script src='@routes.Assets.at("bower_components/github-scouter/browser/github-scouter.js")' type="text/javascript"></script>
-        @groupOption.map(group => {
-            val src = routes.Assets.at(s"javascripts/$group.js")
-            // XMLリテラルが使いたい。
-            Html(s"""<script src="$src" type="text/javascript"></script>""")
-        })
         <link rel="import" href='@routes.Assets.at("bower_components/paper-elements/paper-elements.html")'>
+        <link rel="import" href='@routes.Assets.at("bower_components/core-animation/core-animation.html")'>
+        <script src='@routes.Assets.at("javascripts/front.bundle.js")' type="text/javascript"></script>
     </head>
-    <body class="grid">
+    <body class="grid" unresolved>
         <div class="grid__col grid__col--3-of-5 grid__col--centered">
             <div class="content">
                 @content

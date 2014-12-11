@@ -1,5 +1,10 @@
+[resolved] {
+    transition: opacity 0;
+}
+
 body {
     color: #222;
+    padding: 1em;
 }
 
 paper-button#measure {
@@ -29,11 +34,11 @@ paper-button#measure .button-content {
 }
 
 #power_level {
+    margin-top: 1em;
     text-align: center;
 }
 
 #power_level_message {
-    display: none;
     font-size: 150%;
     font-weight: normal;
     text-align: center;
@@ -74,7 +79,7 @@ footer {
 }
 
 footer ul {
-    margin-top: 3em;
+    margin-top: 1em;
     font-size: small;
     text-align: right;
     list-style:none;
@@ -87,3 +92,4 @@ footer li {
 .content {
     padding: 0 0 1em 1ex;
 }
+
