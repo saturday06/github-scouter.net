@@ -7,6 +7,10 @@ body {
     padding: 1em;
 }
 
+h1 {
+    word-break: keep-all;
+}
+
 paper-button#measure {
     border: 1px solid darkgray;
     margin: 0;
@@ -92,4 +96,3 @@ footer li {
 .content {
     padding: 0 0 1em 1ex;
 }
-
