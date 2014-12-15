@@ -21,3 +21,4 @@
 /public/tmp/
 /app/assets/javascripts/front.bundle.js
 /app/assets/javascripts/front.bundle.js.map
+/conf/application.conf
