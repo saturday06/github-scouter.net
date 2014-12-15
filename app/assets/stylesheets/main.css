@@ -49,6 +49,10 @@ paper-button#measure .button-content {
     margin-right: auto;
 }
 
+#cache_message {
+    font-size: small;
+}
+
 #power_level_chart {
     margin-left: auto;
     margin-right: auto;

@@ -3,7 +3,7 @@
     "postinstall": "node_modules/.bin/gulp install"
   },
   "devDependencies": {
-    "github-scouter": "0.0.11",
+    "github-scouter": "0.0.12",
     "gulp": "^3.8.10",
     "gulp-bower": "0.0.7",
     "gulp-rename": "^1.2.0",

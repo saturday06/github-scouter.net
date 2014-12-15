@@ -5,7 +5,8 @@
   "dependencies": {
     "paper-elements": "Polymer/paper-elements#~0.5.1",
     "toast-grid": "~1.0.0",
-    "github-scouter": "~0.0.11",
+    "github-scouter": "~0.0.12",
+    "moment": "~2.8.4",
     "jquery": "~2.1.1"
   }
 }
