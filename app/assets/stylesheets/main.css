@@ -7,10 +7,6 @@ body {
     padding: 1em;
 }
 
-h1 {
-    word-break: keep-all;
-}
-
 paper-button#measure {
     border: 1px solid darkgray;
     margin: 0;
@@ -97,3 +93,8 @@ footer li {
     padding: 0 0 1em 1ex;
 }
 
+/* http://www.msng.info/archives/2013/09/white-space-nowrap-wbr-ja.php */
+.nobreak-inline-block {
+    white-space: nowrap;
+    display: inline-block;
+}
