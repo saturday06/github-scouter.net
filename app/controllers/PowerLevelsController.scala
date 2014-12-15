@@ -56,11 +56,11 @@ object PowerLevelsController extends Controller {
 
     // TODO: モデルに移す。よりエレガントなウェイを使う。
     val json = Json.parse(out.toString())
-    val id = 0 // これで良いのか？
-    val attack = json.\("attack").as[Int]
-    val intelligence = json.\("intelligence").as[Int]
-    val agility = json.\("agility").as[Int]
-    val timestamp = json.\("timestamp").as[Int]
+    val id = 0L // これで良いのか？
+    val attack = json.\("attack").as[BigDecimal]
+    val intelligence = json.\("intelligence").as[BigDecimal]
+    val agility = json.\("agility").as[BigDecimal]
+    val timestamp = json.\("timestamp").as[Long]
     val createdAt = DateTime.now()
     val updatedAt = createdAt
     Some(PowerLevel(id, userName, attack, intelligence, agility,
