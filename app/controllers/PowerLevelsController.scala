@@ -47,7 +47,14 @@ object PowerLevelsController extends Controller {
     val err = new StringBuilder
 
     // TODO: Possible OS command injection
-    val process = Process(Seq("./node_modules/.bin/github-scouter", "--json", "--no-cache", userName), Play.application.path)
+    val process = Process(Seq(
+      "./node_modules/.bin/github-scouter",
+      userName,
+      "--json",
+      "--no-cache",
+      "--token",
+      Play.application.configuration.getString("githubscouter.token")
+    ), Play.application.path)
     val exitStatus = process.!(ProcessLogger(
       (o: String) => out.append(o),
       (e: String) => err.append(e)))
