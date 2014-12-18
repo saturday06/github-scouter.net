@@ -24,7 +24,7 @@ object PowerLevelsController extends Controller {
       .sortBy(_.timestamp.desc)
       .sortBy(_.id.desc) // 上とくっつけらんないか？
       .firstOption
-    query match {
+    val response = query match {
       case Some(model) => Ok(toJson(model))
       case _ => {
         executeScouter(userName) match {
@@ -36,6 +36,7 @@ object PowerLevelsController extends Controller {
         }
       }
     }
+    response.withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
   }
 
   /**
