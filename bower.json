@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "github-scouter": "~0.0.12",
+    "github-scouter": "~0.0.13",
     "jquery": "~2.1.1",
     "moment": "~2.8.4",
     "paper-elements": "Polymer/paper-elements#~0.5.2",
