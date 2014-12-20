@@ -33,12 +33,14 @@ $(() => {
         showChart(userName, powerLevel)
 
         var animation = new CoreAnimation()
-        animation.duration = 300;
+        var target = document.getElementById("power_level")
+        animation.duration = 300
         animation.keyframes = [
             {opacity: 0},
             {opacity: 1}
         ];
-        animation.target = document.getElementById("power_level")
+        animation.target = target
+        target.style.opacity = "1" // TODO: これをつけないとchromeでopacityが0に戻る？
         animation.play()
     }
 
