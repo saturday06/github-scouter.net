@@ -1,5 +1,6 @@
 package controllers
 
+import com.google.common.base.Charsets
 import models._
 import org.joda.time.DateTime
 import play.Play
@@ -20,14 +21,14 @@ object PowerLevelsController extends Controller {
   def show(userName: String) = DBAction { implicit rs =>
     // これらの処理はフラットに縦にならべられないか
     val query = TableQuery[PowerLevelsTable]
-      .filter(_.userName === userName)
+      .filter(_.userName === userName) // TODO: 大文字小文字マッチ必要かも？
       .sortBy(_.timestamp.desc)
       .sortBy(_.id.desc) // 上とくっつけらんないか？
       .firstOption
     val response = query match {
       case Some(model) => Ok(toJson(model))
       case _ => {
-        executeScouter(userName) match {
+        PowerLevels.executeScouter(userName) match {
           case Some(model) => {
             TableQuery[PowerLevelsTable].insert(model) // TODO: テーブルロック待ったなし
             Ok(toJson(model))
@@ -37,41 +38,5 @@ object PowerLevelsController extends Controller {
       }
     }
     response.withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
-  }
-
-  /**
-   * ここに書くんじゃなくて適当なサービスクラスっぽいものを用意
-   */
-  def executeScouter(userName: String): Option[PowerLevel] = {
-    val out = new StringBuilder
-    val err = new StringBuilder
-
-    // TODO: Possible OS command injection
-    val process = Process(Seq(
-      "./node_modules/.bin/github-scouter",
-      userName,
-      "--json",
-      "--no-cache",
-      "--token",
-      Play.application.configuration.getString("githubscouter.token")
-    ), Play.application.path)
-    val exitStatus = process.!(ProcessLogger(
-      (o: String) => out.append(o),
-      (e: String) => err.append(e)))
-    if (exitStatus != 0) {
-      return None
-    }
-
-    // TODO: モデルに移す。よりエレガントなウェイを使う。
-    val json = Json.parse(out.toString())
-    val id = 0L // これで良いのか？
-    val attack = json.\("attack").as[BigDecimal]
-    val intelligence = json.\("intelligence").as[BigDecimal]
-    val agility = json.\("agility").as[BigDecimal]
-    val timestamp = json.\("timestamp").as[Long]
-    val createdAt = DateTime.now()
-    val updatedAt = createdAt
-    Some(PowerLevel(id, userName, attack, intelligence, agility,
-                          timestamp, createdAt, updatedAt))
   }
 }

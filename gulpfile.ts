@@ -77,7 +77,7 @@ gulp.task('main-bower-files', ['bower'], () => {
         .pipe(gulp.dest('public/bower_components'))
 });
 
-gulp.task('install', ['bower'], () => {
+gulp.task('install', ['bower', 'webpack'], () => {
 })
 
 gulp.task('default', ['guard'])

@@ -1,8 +1,13 @@
 package models
 
+import com.google.common.base.Charsets
 import org.joda.time.DateTime
+import play.Play
 import play.api.db.slick.Config.driver.simple._
 import com.github.tototoshi.slick.MySQLJodaSupport._
+import play.api.libs.json.{JsResultException, Json}
+
+import scala.sys.process.{Process, ProcessLogger}
 
 case class PowerLevel(id: Long, userName: String, attack: BigDecimal, intelligence: BigDecimal, agility: BigDecimal,
                        timestamp: Long, createdAt: DateTime, updatedAt: DateTime)
@@ -21,4 +26,59 @@ class PowerLevelsTable(tag: Tag) extends Table[PowerLevel](tag, "power_levels") 
   def updatedAt = column[DateTime]("updated_at", O.NotNull)
 
   def * = (id, userName, attack, intelligence, agility, timestamp, createdAt, updatedAt) <> (PowerLevel.tupled, PowerLevel.unapply _)
+}
+
+/**
+ * 単数形のが良いだろうか
+ */
+object PowerLevels {
+  def validUserName(userName: String): Boolean = {
+    // 「コマンドラインで使える文字列」型があると嬉しい
+    val asciiUserName = new String(userName.getBytes(Charsets.US_ASCII), Charsets.US_ASCII)
+    asciiUserName.matches("""\p{Graph}{0,2000}""")
+  }
+
+  def fromJSONString(jsonString: String, userName: String /* TODO: これどーすっか */): Option[PowerLevel] = {
+    // TODO: よりエレガントなウェイを使う。
+    try {
+      val json = Json.parse(jsonString)
+      val id = 0L // これで良いのか？
+      val attack = json.\("attack").as[BigDecimal]
+      val intelligence = json.\("intelligence").as[BigDecimal]
+      val agility = json.\("agility").as[BigDecimal]
+      val timestamp = json.\("timestamp").as[Long]
+      val createdAt = DateTime.now()
+      val updatedAt = createdAt
+      Some(PowerLevel(id, userName, attack, intelligence, agility,
+        timestamp, createdAt, updatedAt))
+    } catch {
+      case e: JsResultException => None // TODO: エラー情報が消えるの良くない。eitherかscalazのvalidation
+    }
+  }
+
+  /**
+   * ここに書くんじゃなくて適当なサービスクラスっぽいものを用意
+   */
+  def executeScouter(userName: String): Option[PowerLevel] = {
+    if (!validUserName(userName)) {
+      return None
+    }
+    val process = Process(Seq(
+      "./node_modules/.bin/github-scouter",
+      userName,
+      "--json",
+      "--no-cache",
+      "--token",
+      Play.application.configuration.getString("githubscouter.token")
+    ), Play.application.path)
+    val out = new StringBuilder
+    val err = new StringBuilder
+    val exitStatus = process.!(ProcessLogger(
+      (o: String) => out.append(o),
+      (e: String) => err.append(e)))
+    if (exitStatus != 0) {
+      return None
+    }
+    fromJSONString(out.toString(), userName)
+  }
 }
