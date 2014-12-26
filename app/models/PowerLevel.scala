@@ -1,6 +1,7 @@
 package models
 
 import com.google.common.base.Charsets
+import com.jolbox.bonecp.UsernamePassword
 import org.joda.time.DateTime
 import play.Play
 import play.api.db.slick.Config.driver.simple._
@@ -32,6 +33,29 @@ class PowerLevelsTable(tag: Tag) extends Table[PowerLevel](tag, "power_levels") 
  * 単数形のが良いだろうか
  */
 object PowerLevels {
+  def findOrCreateByUserName(userName: String): Option[PowerLevel] = {
+    // これらの処理はフラットに縦にならべられないか
+    val query = TableQuery[PowerLevelsTable]
+      .filter(_.userName === userName) // TODO: 大文字小文字マッチ必要かも？
+      .sortBy(_.timestamp.desc)
+      .sortBy(_.id.desc) // 上とくっつけらんないか？
+
+    // 最近のものが存在したら返す
+    val fromTimestamp = DateTime.now().minusDays(3 /* TODO: 定数 */).getMillis / 1000
+    query.filter(_.timestamp > fromTimestamp).firstOption.map { found =>
+      return Some(found)
+    }
+
+    // ない場合はスカウターを実行
+    PowerLevels.executeScouter(userName).map { found =>
+      TableQuery[PowerLevelsTable].insert(found) // TODO: テーブルロック待ったなし
+      return Some(found)
+    }
+
+    // 全検索して返す
+    query.firstOption
+  }
+
   def validUserName(userName: String): Boolean = {
     // 「コマンドラインで使える文字列」型があると嬉しい
     val asciiUserName = new String(userName.getBytes(Charsets.US_ASCII), Charsets.US_ASCII)
