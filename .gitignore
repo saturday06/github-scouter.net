@@ -16,3 +16,4 @@
 /public/bower_components/
 /public/tmp/
 /conf/application.conf
+/conf/test.conf
