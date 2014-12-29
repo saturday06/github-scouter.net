@@ -1,0 +1,15 @@
+language: node_js
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install default-jdk
+
+before_script:
+  - mysql -e 'CREATE DATABASE githubscouter_test CHARACTER SET utf8 COLLATE utf8_general_ci;'
+  - cp conf/test.travis.conf conf/test.conf
+  - wget https://dl.bintray.com/sbt/native-packages/sbt/0.13.7/sbt-0.13.7.tgz
+  - tar xf sbt-0.13.7.tgz
+  - npm install
+
+script:
+  - ./sbt/bin/sbt test
