@@ -13,6 +13,7 @@
 /project/target/
 /target/
 /tmp/
+/bower_components/
 /public/bower_components/
 /public/tmp/
 /conf/application.conf
