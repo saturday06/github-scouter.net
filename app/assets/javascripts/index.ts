@@ -4,7 +4,7 @@ google.load("visualization", "1", {packages:["corechart"]})
 $(() => {
     function showChart(userName, powerLevel) {
         var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
+            ['Parameter', 'Value'],
             ['攻撃力', powerLevel.atk],
             ['知力', powerLevel.int],
             ['素早さ', powerLevel.agi]
