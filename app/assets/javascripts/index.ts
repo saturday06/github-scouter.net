@@ -26,6 +26,9 @@ $(() => {
             '</a>さんのGitHub戦闘力は<br><span class="total-power-level">' +
             "　" + Math.round(powerLevel.total() * 10) / 10 + "</span>です。";
         $("#power_level_message").html(message)
+        if (powerLevel.cached) {
+            $("#cache_message").text("※ " + powerLevel.timestamp.format() + "のキャッシュです")
+        }
 
         showChart(userName, powerLevel)
 
