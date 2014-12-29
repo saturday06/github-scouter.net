@@ -8,12 +8,6 @@ scalaVersion := "2.11.4"
 
 libraryDependencies ++= Seq(jdbc ,anorm ,cache ,ws)
 
-libraryDependencies ++= Seq(
-  "org.webjars" %% "webjars-play" % "2.3.0",
-  "org.webjars" % "polymer" % "0.5.1",
-  "org.webjars" % "polymer-platform" % "0.4.1"
-)
-
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
