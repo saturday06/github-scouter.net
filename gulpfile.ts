@@ -83,7 +83,7 @@ gulp.task('install', ['bower', 'webpack'], () => {
 
 gulp.task('mock-server', () => {
     gulp.src('node_modules/github-scouter/test/mock-server.ts')
-        .pipe(tsc())
+        .pipe(tsc({tmpDir: 'tmp'}))
         .pipe(gulp.dest('tmp'))
         .on('end', () => {
             express.run({
