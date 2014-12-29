@@ -56,6 +56,13 @@ $(() => {
             $(".measure-spinner").hide()
             $("#power_level").show()
             showResult(userName, powerLevel)
+
+            // キャッシュにためときたいため、いちおう叩く
+            // userNameはvalidation済みのはず
+            // TODO: サーバー側でキューイング
+            $.get('powerLevels/' + userName, (response) => {
+                // console.log(response)
+            })
         }, (e) => {
             console.log(e)
             $(".measure-spinner").hide()
