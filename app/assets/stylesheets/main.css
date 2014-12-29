@@ -1,5 +1,10 @@
+[resolved] {
+    transition: opacity 0;
+}
+
 body {
     color: #222;
+    padding: 1em;
 }
 
 paper-button#measure {
@@ -29,11 +34,11 @@ paper-button#measure .button-content {
 }
 
 #power_level {
+    margin-top: 1em;
     text-align: center;
 }
 
 #power_level_message {
-    display: none;
     font-size: 150%;
     font-weight: normal;
     text-align: center;
@@ -42,6 +47,10 @@ paper-button#measure .button-content {
     text-wrap: none;
     margin-left: auto;
     margin-right: auto;
+}
+
+#cache_message {
+    font-size: small;
 }
 
 #power_level_chart {
@@ -74,7 +83,7 @@ footer {
 }
 
 footer ul {
-    margin-top: 3em;
+    margin-top: 1em;
     font-size: small;
     text-align: right;
     list-style:none;
@@ -86,4 +95,10 @@ footer li {
 
 .content {
     padding: 0 0 1em 1ex;
+}
+
+/* http://www.msng.info/archives/2013/09/white-space-nowrap-wbr-ja.php */
+.nobreak-inline-block {
+    white-space: nowrap;
+    display: inline-block;
 }
