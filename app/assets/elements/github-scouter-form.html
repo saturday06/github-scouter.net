@@ -63,7 +63,9 @@
                 this.githubId = ""
             },
 
-            measure: function() {
+            measure: function(e) {
+                e.preventDefault()
+
                 $(this.$.errorMessage).empty().hide()
                 $(this.$.powerLevel).empty().hide()
                 $(this.$.measureSpinner).show()
