@@ -8,5 +8,8 @@
     "moment": "~2.8.4",
     "paper-elements": "Polymer/paper-elements#~0.5.2",
     "toast-grid": "~1.0.0"
+  },
+  "devDependencies": {
+    "google-chart": "~0.2.1"
   }
 }

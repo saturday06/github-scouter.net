@@ -6,7 +6,7 @@
             <span class="total-power-level">{{totalPowerLevel}}</span>
             です。
         </span>
-        <div id="powerLevelChart"></div>
+        <google-chart type='pie' id="powerLevelChart" />
         <span id="cacheMessage">※ {{timestamp}} のキャッシュです</span>
         <style>
             :host {
@@ -28,11 +28,6 @@
 
             :host #cacheMessage {
                 font-size: small;
-            }
-
-            :host #powerLevelChart {
-                margin-left: auto;
-                margin-right: auto;
             }
 
             :host .user-name {
@@ -59,22 +54,17 @@
             drawChart: function() {
                 this.totalPowerLevel = Math.round(this.powerLevel.total() * 10) / 10
                 this.timestamp = this.powerLevel.timestamp.format()
-
-                var data = google.visualization.arrayToDataTable([
+                var width = $(this).width() // this?
+                this.$.powerLevelChart.options = {
+                    sliceVisibilityThreshold: 0,
+                    width: width
+                }
+                this.$.powerLevelChart.data = [
                     ['Parameter', 'Value'],
                     ['攻撃力', this.powerLevel.atk],
                     ['知力', this.powerLevel.int],
                     ['素早さ', this.powerLevel.agi]
-                ])
-                var width = $(this.$.powerLevelMessage).width() // this?
-                var options = {
-                    sliceVisibilityThreshold: 0,
-                    width: width
-                }
-                $(this.$.powerLevelChart).width(width)
-
-                var chart = new google.visualization.PieChart(this.$.powerLevelChart)
-                chart.draw(data, options)
+                ]
 
                 if (this.powerLevel.cached) {
                     $(this.$.cacheMessage).show()
