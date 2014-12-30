@@ -1,0 +1,85 @@
+<polymer-element name="power-level-chart">
+    <template>
+        <span id="powerLevelMessage">
+            <a class="user-name" href="https://github.com/{{githubId}}">{{githubId}}</a>
+            さんのGitHub戦闘力は<br>
+            <span class="total-power-level">{{totalPowerLevel}}</span>
+            です。
+        </span>
+        <div id="powerLevelChart"></div>
+        <span id="cacheMessage">※ {{timestamp}} のキャッシュです</span>
+    </template>
+    <style>
+        power-level-chart {
+            margin-top: 1em;
+            text-align: center;
+            display: block;
+        }
+
+        power-level-chart #powerLevelMessage {
+            font-size: 150%;
+            font-weight: normal;
+            text-align: center;
+            margin-top: 1em;
+            margin-bottom: 0;
+            text-wrap: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        power-level-chart #cacheMessage {
+            font-size: small;
+        }
+
+        power-level-chart #powerLevelChart {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        power-level-chart .user-name {
+            font-weight: bold;
+        }
+
+        power-level-chart .total-power-level {
+            font-size: 200%;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        google.load("visualization", "1", {packages:["corechart"]})
+
+        Polymer('power-level-chart', {
+            init: function(githubId, powerLevel) {
+                this.githubId = githubId
+                this.powerLevel = powerLevel
+            },
+
+            domReady: function() {
+                this.totalPowerLevel = Math.round(this.powerLevel.total() * 10) / 10
+                this.timestamp = this.powerLevel.timestamp.format()
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Parameter', 'Value'],
+                    ['攻撃力', this.powerLevel.atk],
+                    ['知力', this.powerLevel.int],
+                    ['素早さ', this.powerLevel.agi]
+                ])
+                var width = $(this.$.powerLevelMessage).width() // this?
+                var options = {
+                    sliceVisibilityThreshold: 0,
+                    width: width
+                }
+                $(this.$.powerLevelChart).width(width)
+
+                var chart = new google.visualization.PieChart(this.$.powerLevelChart)
+                chart.draw(data, options)
+
+                if (this.powerLevel.cached) {
+                    $(this.$.cacheMessage).show()
+                } else {
+                    $(this.$.cacheMessage).hide()
+                }
+            }
+        })
+    </script>
+</polymer-element>

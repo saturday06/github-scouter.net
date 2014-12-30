@@ -1,0 +1,110 @@
+<link rel="import" href="power-level-chart.html">
+<polymer-element name="github-scouter-form">
+    <template>
+        <form on-submit="{{measure}}">
+            <div>
+                <paper-input-decorator label="GitHub ID" floatingLabel>
+                    <input is="core-input" class="github-id" value="{{githubId}}">
+                </paper-input-decorator>
+            </div>
+            <div class="measure-button-layout">
+                <paper-button on-click="{{measure}}">計測する!</paper-button>
+                <paper-spinner id="measureSpinner" active></paper-spinner>
+                <div id="errorMessage"></div>
+            </div>
+        </form>
+        <div id="powerLevel"></div>
+    </template>
+    <style>
+        github-scouter-form {
+            display: block;
+        }
+
+        github-scouter-form #errorMessage {
+            display: none;
+            padding: 1ex;
+            color: red;
+            font-size: smaller;
+            text-wrap: unrestricted;
+            flex-shrink: 1;
+            border: red 1px solid;
+            margin-left: 1ex;
+        }
+
+        github-scouter-form #measureSpinner {
+            display: none;
+            align-self: center;
+            margin: 0 1em;
+        }
+
+        github-scouter-form paper-button {
+            border: 1px solid darkgray;
+            margin: 0;
+        }
+
+        github-scouter-form paper-button .button-content {
+            white-space: nowrap;
+        }
+
+        github-scouter-form .measure-button-layout {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        github-scouter-form .measure-button-layout > * {
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+    </style>
+    <script>
+        Polymer({
+            ready: function() {
+                this.githubId = ""
+            },
+
+            measure: function() {
+                $(this.$.errorMessage).empty().hide()
+                $(this.$.powerLevel).empty().hide()
+                $(this.$.measureSpinner).show()
+
+                var scouter = new GithubScouter()
+                var queryGithubId = this.githubId // ユーザーにより変更されることがあるためキャッシュしておく
+                var callerThis = this
+                scouter.measure(queryGithubId, function(powerLevel) {
+                    console.log(powerLevel)
+                    $(callerThis.$.measureSpinner).hide()
+                    $(callerThis.$.powerLevel).show()
+
+                    callerThis.showChart(queryGithubId, powerLevel)
+
+                    // キャッシュにためときたいため、いちおう叩く
+                    // queryGithubIdは安全なはず
+                    // TODO: サーバー側でキューイング
+                    $.get('powerLevels/' + queryGithubId, (response) => {
+                        // console.log(response)
+                    })
+                }, (e) => {
+                    console.log(e)
+                    $(callerThis.$.measureSpinner).hide()
+                    $(callerThis.$.errorMessage).text(e.toString()).show()
+                })
+            },
+
+            showChart: function(githubId, powerLevel) {
+                var chart = document.createElement('power-level-chart')
+                chart.init(githubId, powerLevel)
+                this.$.powerLevel.appendChild(chart)
+
+                var animation = new CoreAnimation()
+                animation.duration = 300
+                animation.keyframes = [
+                    {opacity: 0},
+                    {opacity: 1}
+                ];
+                animation.target = chart
+                animation.play()
+            }
+        })
+    </script>
+</polymer-element>
