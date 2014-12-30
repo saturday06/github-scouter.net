@@ -81,10 +81,10 @@
                     // キャッシュにためときたいため、いちおう叩く
                     // queryGithubIdは安全なはず
                     // TODO: サーバー側でキューイング
-                    $.get('powerLevels/' + queryGithubId, (response) => {
+                    $.get('powerLevels/' + queryGithubId, function(response) {
                         // console.log(response)
                     })
-                }, (e) => {
+                }, function(e) {
                     console.log(e)
                     $(callerThis.$.measureSpinner).hide()
                     $(callerThis.$.errorMessage).text(e.toString()).show()
