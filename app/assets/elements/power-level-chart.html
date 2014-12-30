@@ -8,43 +8,43 @@
         </span>
         <div id="powerLevelChart"></div>
         <span id="cacheMessage">※ {{timestamp}} のキャッシュです</span>
+        <style>
+            :host {
+                margin-top: 1em;
+                text-align: center;
+                display: block;
+            }
+
+            :host #powerLevelMessage {
+                font-size: 150%;
+                font-weight: normal;
+                text-align: center;
+                margin-top: 1em;
+                margin-bottom: 0;
+                text-wrap: none;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            :host #cacheMessage {
+                font-size: small;
+            }
+
+            :host #powerLevelChart {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            :host .user-name {
+                font-weight: bold;
+            }
+
+            :host .total-power-level {
+                font-size: 200%;
+                font-weight: bold;
+            }
+        </style>
     </template>
-    <style>
-        power-level-chart {
-            margin-top: 1em;
-            text-align: center;
-            display: block;
-        }
-
-        power-level-chart #powerLevelMessage {
-            font-size: 150%;
-            font-weight: normal;
-            text-align: center;
-            margin-top: 1em;
-            margin-bottom: 0;
-            text-wrap: none;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        power-level-chart #cacheMessage {
-            font-size: small;
-        }
-
-        power-level-chart #powerLevelChart {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        power-level-chart .user-name {
-            font-weight: bold;
-        }
-
-        power-level-chart .total-power-level {
-            font-size: 200%;
-            font-weight: bold;
-        }
-    </style>
     <script>
         google.load("visualization", "1", {packages:["corechart"]})
 
