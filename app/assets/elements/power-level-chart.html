@@ -48,10 +48,6 @@
             },
 
             domReady: function() {
-                google.setOnLoadCallback(this.drawChart())
-            },
-
-            drawChart: function() {
                 this.totalPowerLevel = Math.round(this.powerLevel.total() * 10) / 10
                 this.timestamp = this.powerLevel.timestamp.format()
 
