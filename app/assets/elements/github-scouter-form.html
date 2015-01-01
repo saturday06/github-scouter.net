@@ -95,7 +95,7 @@
 
             showChart: function(githubId, powerLevel) {
                 var chart = document.createElement('power-level-chart')
-                chart.init(githubId, powerLevel)
+                chart.init(githubId, powerLevel, $(this.$.powerLevel).width())
                 this.$.powerLevel.appendChild(chart)
 
                 var animation = new CoreAnimation()

@@ -42,17 +42,13 @@
     </template>
     <script>
         Polymer({
-            init: function(githubId, powerLevel) {
+            init: function(githubId, powerLevel, width) {
                 this.githubId = githubId
                 this.powerLevel = powerLevel
-            },
-
-            domReady: function() {
                 this.totalPowerLevel = Math.round(this.powerLevel.total() * 10) / 10
                 this.timestamp = this.powerLevel.timestamp.format()
 
                 // TODO: 横幅の調整をもっときれいにできないか
-                var width = $(this).width()
                 this.$.powerLevelChart.options = {
                     sliceVisibilityThreshold: 0,
                     width: width
