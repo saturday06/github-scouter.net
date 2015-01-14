@@ -2,7 +2,7 @@ name := "github-scouter-net"
 
 version := "1.0"
 
-lazy val `github-scouter-net` = (project in file(".")).enablePlugins(PlayScala)
+lazy val `github-scouter-net` = (project in file(".")).enablePlugins(PlayScala, SbtPhantomJs)
 
 scalaVersion := "2.11.4"
 
@@ -15,3 +15,5 @@ libraryDependencies ++= Seq(jdbc, cache, ws,
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
+
+(test in Test) <<= (test in Test) dependsOn(installPhantomJs)

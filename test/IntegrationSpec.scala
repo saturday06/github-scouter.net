@@ -10,11 +10,10 @@ import play.api.test._
  */
 @RunWith(classOf[JUnitRunner])
 class IntegrationSpec extends Specification {
-  def webDriver = WebDriverFactory(classOf[PhantomJSDriver])
 
   "Application" should {
 
-    "work from within a browser" in new WithBrowser(webDriver = webDriver) {
+    "work from within a browser" in new WithPhantomJs {
 
       browser.goTo("http://localhost:" + port)
 
